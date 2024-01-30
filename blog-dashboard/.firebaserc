@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "blog-app-bc84a": {
+      "hosting": {
+        "blog-dashboard": [
+          "blog-app-bc84a"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "blog-app-bc84a"
+  }
+}
