@@ -1,0 +1,12 @@
+.btn-sub{
+    height: 58px;
+    border: none;
+    font-size: 13px;
+    background-color: var(--primary-color);
+color: var(--secondary-color);
+}
+
+input{
+    height: 60px;
+    padding-left: 20px;
+}
