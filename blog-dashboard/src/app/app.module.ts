@@ -12,6 +12,7 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { environment } from 'src/environments/environment.prod';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    FormsModule
+    FormsModule,
+    ToastrModule.forRoot(), 
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
