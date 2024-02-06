@@ -13,6 +13,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { environment } from 'src/environments/environment.prod';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ToastrModule } from 'ngx-toastr';
     AngularFirestoreModule,
     FormsModule,
     ToastrModule.forRoot(), 
+    BrowserAnimationsModule,
     
   ],
   providers: [],
