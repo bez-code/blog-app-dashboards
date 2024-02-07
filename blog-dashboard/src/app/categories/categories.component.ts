@@ -8,13 +8,20 @@ import { Category } from '../models/category';
   styleUrls: ['./categories.component.css'],
 })
 export class CategoriesComponent implements OnInit {
+
+  categoryArray: Array<any> = [];
+  formCategory!: string;
+  formStatus:  string= 'Add'
+
   constructor(private categoryService: CategoriesService) { }
- 
+
   ngOnInit(): void {
 
-this.categoryService.loadData().subscribe(val =>{
-  console.log(val)
-})
+    this.categoryService.loadData().subscribe(val => {
+      this.categoryArray = val;
+      console.log(this.categoryArray)
+
+    })
 
   }
 
@@ -22,25 +29,13 @@ this.categoryService.loadData().subscribe(val =>{
     let categoryData: Category = {
       category: formData.value.category
     }
-
     this.categoryService.saveData(categoryData);
-    // let subCategoryData = {
-    //   subCategory: 'subCategory1',
-
-    // };
-    // this.afs
-    //   .collection('categories')
-    //   .add(categoryData)
-    //   .then((docRef) => {
-    //     console.log('Category added with id', docRef);
-
-    //     this.afs.collection('categories').doc(docRef.id).collection('subCategories')
-    //       .add(subCategoryData).then(docRef1 => {
-    //         console.log(docRef1)
-    //       })
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    formData.reset()
   }
+
+  onEdit(category: any) {
+    this.formCategory = category;
+    this.formStatus = 'Edit'
+  }
+
 }
