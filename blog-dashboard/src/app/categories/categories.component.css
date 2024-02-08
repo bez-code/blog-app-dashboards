@@ -10,3 +10,7 @@ input{
     height: 60px;
     padding-left: 20px;
 }
+
+.delete{
+    margin-left: 5px;
+}
