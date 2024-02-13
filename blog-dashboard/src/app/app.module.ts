@@ -16,6 +16,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AllPostsComponent } from './posts/all-posts/all-posts.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
     FormsModule,
     ToastrModule.forRoot(), 
     BrowserAnimationsModule,
+    AngularEditorModule,
+    HttpClientModule
     
   ],
   providers: [],
