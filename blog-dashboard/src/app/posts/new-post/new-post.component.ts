@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriesService } from 'src/app/services/categories.service';
 
 @Component({
@@ -9,35 +9,34 @@ import { CategoriesService } from 'src/app/services/categories.service';
 })
 export class NewPostComponent implements OnInit {
 
-  constructor(private categoryService: CategoriesService,private fb : FormBuilder) {
-    this.postForm = this.fb.group({
-      title : [''],
-      permalink:[''],
-      excerpt : [''],
-      category: [''],
-      postImg: [''],
-      content: [''] 
-    })
-
-    console.log(this.postForm);
-    
-
-               }
- 
-  
   permalink = '';
   imageSrc: any = '';
   selectedImage: any = ''
   categories : Array<any> = [];
   postForm!: FormGroup;
+
+  constructor(private categoryService: CategoriesService,private fb : FormBuilder) {
+    this.postForm = this.fb.group({
+      title : ['', [ Validators.required, Validators.maxLength(10)]],
+      permalink:['', [Validators.required]],
+      excerpt : ['',[Validators.required, Validators.minLength(50 )]],
+      category: ['',[Validators.required]],
+      postImg: ['',[Validators.required]],
+      content: ['',[Validators.required]] 
+    })
+  } ;
+  
   
   ngOnInit(): void {
     this.categoryService.loadData().subscribe(val =>{
-      this.categories = val;
-      console.log(this.categories);
-      
-    });
+      this.categories = val;      
+    })
   }
+  
+  get fc(): { [key: string]: AbstractControl } {
+    return this.postForm.controls;
+  }
+  
 
   onTitleChange($event: any) {
 
