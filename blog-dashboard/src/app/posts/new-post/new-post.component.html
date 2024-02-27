@@ -52,7 +52,7 @@
                         <Label class=""> Please select post category</Label>
                         <select class="form-control" formControlName="category">
                             <option value="" disabled> Please select category</option>
-                            <option *ngFor="let category of categories"> {{category.data.category}}</option>
+                            <option *ngFor="let category of categories" value="{{category.id}}-{{category.data.category}}"> {{category.data.category}}</option>
                         </select>
                         <div *ngIf="fc['category'].hasError('required')">
                             <div class="alert alert-danger" *ngIf="fc['category'].touched && fc['category'].invalid"> Please select a category </div>
