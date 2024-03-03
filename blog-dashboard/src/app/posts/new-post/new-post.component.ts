@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/models/post';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { PostsService } from 'src/app/services/posts.service';
@@ -14,33 +15,48 @@ export class NewPostComponent implements OnInit {
   permalink = '';
   imageSrc: any = '';
   selectedImage: any = ''
-  categories : Array<any> = [];
+  categories: Array<any> = [];
   postForm!: FormGroup;
+  post: any;
+  formStatus: string = 'Add New';
+  docId :any
 
   constructor(private categoryService: CategoriesService,
-              private fb : FormBuilder,
-              private postService: PostsService) {
-    this.postForm = this.fb.group({
-      title : ['', [ Validators.required, Validators.maxLength(10)]],
-      permalink:['', [Validators.required]],
-      excerpt : ['',[Validators.required, Validators.minLength(50 )]],
-      category: ['',[Validators.required]],
-      postImg: ['',[Validators.required]],
-      content: ['',[Validators.required]] 
-    })
-  } ;
-  
-  
+    private fb: FormBuilder,
+    private postService: PostsService,
+    private route: ActivatedRoute) {
+    this.route.queryParams.subscribe((param => {
+      this.docId = param['id']
+      this.postService.loadOneData(param['id']).subscribe(post => {
+        this.post = post
+
+        this.postForm = this.fb.group({
+          title: [this.post.title, [Validators.required, Validators.maxLength(10)]],
+          permalink: [this.post.permalink, [Validators.required]],
+          excerpt: [this.post.excerpt, [Validators.required, Validators.minLength(50)]],
+          category: [`${this.post.category.categoryId}-${this.post.category.category}`, [Validators.required]],
+          postImg: [this.post.postImg, [Validators.required]],
+          content: [this.post.content, [Validators.required]]
+        })
+        this.imageSrc = this.post.postImgPath
+        this.formStatus = 'Edit'
+      })
+    }))
+
+  };
+
+
+
   ngOnInit(): void {
-    this.categoryService.loadData().subscribe(val =>{
-      this.categories = val;      
+    this.categoryService.loadData().subscribe(val => {
+      this.categories = val;
     })
   }
-  
+
   get fc(): { [key: string]: AbstractControl } {
     return this.postForm.controls;
   }
-  
+
 
   onTitleChange($event: any) {
 
@@ -59,17 +75,17 @@ export class NewPostComponent implements OnInit {
     this.selectedImage = $event.target.files[0];
   }
 
-  onSubmit(){
-    
+  onSubmit() {
+
     let splited = this.postForm.value.category.split('-')
     console.log(splited);
-    
+
     const postData: Post = {
-      title : this.postForm.value.title,
-      permalink : this.postForm.value.permalink,
+      title: this.postForm.value.title,
+      permalink: this.postForm.value.permalink,
       excerpt: this.postForm.value.excerpt,
-      category : {
-        categoryId : splited[0],
+      category: {
+        categoryId: splited[0],
         category: splited[1]
       },
       postImgPath: '',
@@ -79,8 +95,8 @@ export class NewPostComponent implements OnInit {
       status: 'new',
       createdAt: new Date(),
     }
-    this.postService.uploadImage(this.selectedImage , postData)
+    this.postService.uploadImage(this.selectedImage, postData, this.formStatus , this.docId)
     this.postForm.reset()
   }
-  
+
 }

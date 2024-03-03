@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3 class="text-center">Add New New post</h3>
-            <p class="mb-2 text-center"> You Can Add a new Post Here </p>
+            <h3 class="text-center">{{formStatus}} post</h3>
+            <p class="mb-2 text-center"> You Can {{formStatus}} Post Here </p>
         </div>
         <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
             <div class="row mt-5">
@@ -87,7 +87,7 @@
             </div>
 
             <div class="col-md-12 text-center mb-5">
-                <button class="btn btn-info" [disabled]="postForm.invalid"> Save Post</button>
+                <button class="btn btn-info" [disabled]="postForm.invalid"> {{formStatus}} Post</button>
                 <button class="btn btn-warning m-3" routerLink="/posts"> Back to post</button>
 
             </div>
