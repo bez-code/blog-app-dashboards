@@ -55,7 +55,7 @@ export class NewPostComponent implements OnInit {
     })
   }
 
-  get fc() {
+  get fc(): { [key: string]: AbstractControl } {
     return this.postForm.controls;
   }
 
@@ -80,7 +80,7 @@ export class NewPostComponent implements OnInit {
   onSubmit() {
 
     let splited = this.postForm.value.category.split('-')
-
+    
     const postData: Post = {
       title: this.postForm.value.title,
       permalink: this.postForm.value.permalink,
