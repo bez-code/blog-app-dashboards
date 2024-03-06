@@ -15,7 +15,7 @@ export class PostsService {
     private toastr: ToastrService,
     private router: Router) { }
 
-  uploadImage(selectedImage: any, postData: any, formStatus: string, id: string) {
+  uploadImage(selectedImage: any, postData: any, formStatus: any, id: any) {
     const filePath = `postImg/${Date.now()}`
 
     this.storage.upload(filePath, selectedImage).then(() => {
@@ -23,8 +23,10 @@ export class PostsService {
       this.storage.ref(filePath).getDownloadURL().subscribe((url) => {
         postData.postImgPath = url;
 
-        if (formStatus === "Edit") {
+        if (formStatus == 'Edit') {
           this.updateData(id, postData)
+          console.log('update funtion  called in edit mode');
+          
         } else {
           this.saveData(postData)
         }
@@ -57,9 +59,11 @@ export class PostsService {
   }
 
   updateData(id: string, postData: any) {
-    this.afs.doc(`/posts/$id`).update(postData).then(() => {
+    this.afs.doc(`/posts/${id}`).update(postData).then(() => {
       this.toastr.success("Data Updated successfully");
       this.router.navigate(['/posts ']);
+      console.log('updated');
+      
     });
   }
 }

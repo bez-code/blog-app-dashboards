@@ -19,15 +19,17 @@ export class NewPostComponent implements OnInit {
   postForm!: FormGroup;
   post: any;
   formStatus: string = 'Add New';
-  docId :any
+  docId: any
 
   constructor(private categoryService: CategoriesService,
     private fb: FormBuilder,
     private postService: PostsService,
     private route: ActivatedRoute) {
-    this.route.queryParams.subscribe((param => {
-      this.docId = param['id']
-      this.postService.loadOneData(param['id']).subscribe(post => {
+
+    this.route.queryParams.subscribe((val => {
+      this.docId = val['id']
+
+      this.postService.loadOneData(val['id']).subscribe(post => {
         this.post = post
 
         this.postForm = this.fb.group({
@@ -53,7 +55,7 @@ export class NewPostComponent implements OnInit {
     })
   }
 
-  get fc(): { [key: string]: AbstractControl } {
+  get fc() {
     return this.postForm.controls;
   }
 
@@ -78,7 +80,6 @@ export class NewPostComponent implements OnInit {
   onSubmit() {
 
     let splited = this.postForm.value.category.split('-')
-    console.log(splited);
 
     const postData: Post = {
       title: this.postForm.value.title,
@@ -95,7 +96,7 @@ export class NewPostComponent implements OnInit {
       status: 'new',
       createdAt: new Date(),
     }
-    this.postService.uploadImage(this.selectedImage, postData, this.formStatus , this.docId)
+    this.postService.uploadImage(this.selectedImage, postData, this.formStatus, this.docId)
     this.postForm.reset()
   }
 
